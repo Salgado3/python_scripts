@@ -7,7 +7,7 @@ on:
 
 jobs:
   ping:
-    runs-on: unbuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Ping site with retries

@@ -1,0 +1,21 @@
+name: "🌐 Vist website every nth second"
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: unbuntu-latest
+
+    steps:
+      - name: Ping site with retries
+        run: |
+          echo "pinging site at $(date)"
+          curl \
+           --fail \
+           --retry 3 \
+           --retry-delay 5 \
+           --max-time 20 \
+           https://pueblosmagicos.onrender.com/

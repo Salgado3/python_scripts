@@ -1,9 +1,12 @@
-name: "🌐 Vist website every nth second"
+name: "🌐 Pueblos Uptime Monitor"
 
 on:
   schedule:
     - cron: "*/10 * * * *"
   workflow_dispatch:
+concurrency:
+  group: pueblos-uptime
+  cancel-in-progress: true
 
 jobs:
   ping:
@@ -14,11 +17,16 @@ jobs:
         run: |
           echo "pinging site at $(date)"
           curl \
-           --fail \
-           --retry 3 \
-           --retry-delay 5 \
-           --max-time 20 \
-           https://pueblosmagicos.onrender.com/
+          --silent \
+          --show-error \
+          --retry 3 \
+          --retry-delay 5 \
+          --max-time 20 \
+          -w "Response time: %{time_total}s\n" \
+          -o /dev/null \
+          https://pueblosmagicos.onrender.com/
+          --fail \
+
       - name: Alert Discord on failure
         if: failure()
         run: |

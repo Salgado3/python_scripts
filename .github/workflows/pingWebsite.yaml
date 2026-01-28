@@ -19,3 +19,11 @@ jobs:
            --retry-delay 5 \
            --max-time 20 \
            https://pueblosmagicos.onrender.com/
+      - name: Alert Discord on failure
+        if: failure()
+        run: |
+          curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "🚨 **PUEBLOS SITE DOWN**\n\nhttps://pueblosmagicos.onrender.com/\n\nTime: '"$(date -u)"' UTC\nWorkflow: '"${{ github.workflow }}"'"
+            }'

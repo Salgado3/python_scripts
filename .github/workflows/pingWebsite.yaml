@@ -2,7 +2,7 @@ name: "🌐 Vist website every nth second"
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 
 jobs:

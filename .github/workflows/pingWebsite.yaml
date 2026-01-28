@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "*/10 * * * *"
   workflow_dispatch:
+
 concurrency:
   group: pueblos-uptime
   cancel-in-progress: true
@@ -15,17 +16,17 @@ jobs:
     steps:
       - name: Ping site with retries
         run: |
-          echo "pinging site at $(date)"
+          echo "pinging site at $(date -u) UTC"
           curl \
-          --silent \
-          --show-error \
-          --retry 3 \
-          --retry-delay 5 \
-          --max-time 20 \
-          -w "Response time: %{time_total}s\n" \
-          -o /dev/null \
-          https://pueblosmagicos.onrender.com/
-          --fail \
+            --fail \
+            --silent \
+            --show-error \
+            --retry 3 \
+            --retry-delay 5 \
+            --max-time 20 \
+            -w "Response time: %{time_total}s\n" \
+            -o /dev/null \
+            https://pueblosmagicos.onrender.com/
 
       - name: Alert Discord on failure
         if: failure()
